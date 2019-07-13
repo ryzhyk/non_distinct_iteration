@@ -1,0 +1,30 @@
+/* ********************************************************************* *
+ * Copyright 2019 VMware, Inc.  All rights reserved. VMware Confidential *
+ * ********************************************************************* */
+
+//import tinyset as TS
+import graph as graph
+
+/* entity id */
+typedef entid_t = bit<32>
+
+/* transport node id */
+typedef tnid_t = bit<16>
+
+input relation DdlogNode(id: entid_t)
+input relation DdlogBinding(tn: tnid_t, entity: entid_t)
+input relation DdlogDependency(parent: entid_t, child: entid_t)
+
+output relation Span(entity: entid_t, tns: Set<tnid_t>)
+
+Span(entity: entid_t, bindings) :-
+    DdlogNode(entity),
+    DdlogBinding(tn, entity),
+    var bindings = Aggregate((entity), group2set(tn)).
+
+/* Recursive step: propagate span along graph edges */
+Span(parent, tns) :-
+    DdlogNode(parent),
+    DdlogDependency(child, parent),
+    Span(child, child_tns),
+    var tns = Aggregate((parent), group_set_unions(child_tns)).

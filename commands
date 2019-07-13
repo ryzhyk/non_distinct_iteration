@@ -1,0 +1,50 @@
+start;
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{0}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{1}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{2}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{3}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{4}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{5}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{6}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{7}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{8}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{9}],
+insert redistributionspan.DdlogBinding[redistributionspan.DdlogBinding{0, 9}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{10}],
+insert redistributionspan.DdlogBinding[redistributionspan.DdlogBinding{1, 10}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{11}],
+insert redistributionspan.DdlogBinding[redistributionspan.DdlogBinding{2, 11}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{12}],
+insert redistributionspan.DdlogBinding[redistributionspan.DdlogBinding{3, 12}],
+insert redistributionspan.DdlogNode[redistributionspan.DdlogNode{13}],
+insert redistributionspan.DdlogBinding[redistributionspan.DdlogBinding{4, 13}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{1, 2}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{2, 1}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{3, 4}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{4, 3}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{5, 6}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{6, 5}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{7, 8}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{8, 7}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{0, 1}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{1, 0}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{2, 3}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{3, 2}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{6, 7}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{7, 6}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{0, 8}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{11, 1}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{3, 5}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{9, 0}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{10, 4}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{12, 5}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{13, 7}];
+commit dump_changes;
+echo DUMP;
+dump;
+start;
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{1, 6}],
+insert redistributionspan.DdlogDependency[redistributionspan.DdlogDependency{6, 1}];
+commit dump_changes;
+echo DUMP;
+dump;
