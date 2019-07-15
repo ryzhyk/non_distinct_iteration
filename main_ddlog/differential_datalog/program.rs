@@ -20,7 +20,6 @@ use std::sync::atomic::{Ordering, AtomicBool};
 use std::result::Result;
 use std::collections::{hash_map, BTreeSet};
 use std::thread;
-use std::time::Duration;
 use std::sync::mpsc;
 // use deterministic hash-map and hash-set, as differential dataflow expects deterministic order of
 // creating relations
@@ -889,14 +888,14 @@ impl<V:Val> Program<V>
                             let mut span_var = Variable::from(&span_collection.enter(inner), &"Span");
 
                             /*
-                             * Span(entity: entid_t, bindings) :-
-                             *     DdlogNode(entity),
-                             *     DdlogBinding(tn, entity),
-                             *     var bindings = Aggregate((entity), group2set(tn)).
+                             * Span(node, bindings) :-
+                             *     Node(node),
+                             *     Binding(tn, node),
+                             *     var bindings = Aggregate((node), group2set(tn)).
                              */
-                            let rule1 = node_collection_inner.map(|entity|(entity,entity)).arrange_by_key()
-                                        .join_map(&binding_collection_inner.map(|(tn, entity)|(entity, tn)), |entity, _, tn|(*entity, *tn))
-                                        .reduce(|entity, tns, res|{
+                            let rule1 = node_collection_inner.map(|node|(node,node)).arrange_by_key()
+                                        .join_map(&binding_collection_inner.map(|(tn, node)|(node, tn)), |node, _, tn|(*node, *tn))
+                                        .reduce(|node, tns, res|{
                                              let mut tnset = SetU16{x: BTreeSet::new()};
                                              for (tn,_) in tns.iter() {
                                                  tnset.x.insert(**tn);
@@ -907,8 +906,8 @@ impl<V:Val> Program<V>
 
                             /*
                              * Span(parent, tns) :-
-                             *    DdlogNode(parent),
-                             *    DdlogDependency(child, parent),
+                             *    Node(parent),
+                             *    Dependency(child, parent),
                              *    Span(child, child_tns),
                              *    var tns = Aggregate((parent), group_set_unions(child_tns)).
                              */
@@ -931,7 +930,9 @@ impl<V:Val> Program<V>
 
                         span_collection.inspect(move |x| {
                             println!("Span update: {:?}", x);
-                            assert!(x.2 == 1 || x.2 == -1);
+                            if(x.2 != 1 && x.2 != -1) {
+                                panic!("Received Span update with weight = {}", x.2);
+                            };
                         }).probe_with(&mut probe1);
 
                         (node_session, binding_session, dep_session)
